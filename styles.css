@@ -24,4 +24,11 @@ body {
 
 .bar {
     margin: 5px;
+    /* fill: #33ADFF; */
+    fill:rgb(246, 228, 228);
 }
+
+.bar:hover {
+    fill:rgb(246, 228, 228);
+}
+

@@ -4,18 +4,21 @@
   <title>USA GDP Bar Chart</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
-    .bar {
-      fill: steelblue;
-    }
     .x-axis-text {
       text-anchor: end;
       transform: rotate(-45deg);
+    }
+    .bar {
+      fill: #33ADFF; 
+    }
+    .bar:hover {
+      fill: #9ecceb; 
+
     }
   </style>
 </head>
 <body>
   <svg id="chart"></svg>
-
   <script>
     // Fetch the data from the provided URL
     d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json').then(function(data) {
@@ -52,6 +55,7 @@
       .attr("id", "title")
       .style("font-size", "16px")
       .style("text-decoration", "underline")
+      .style("padding", "10px")
       .text("USA GDP");
 
       // Set the X and Y scales
@@ -72,7 +76,7 @@
       const yAxis = d3.axisLeft(yScale);
 
       // Append the axes to the SVG element
-      svg.append("g")
+      const gXAxis = svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis)
@@ -82,6 +86,9 @@
         .attr("dy", "0.15em")
         .attr("id", "x-axis")
         .style("text-anchor", "end");
+
+      gXAxis.selectAll(".tick")
+      .classed("tick", true)
 
       svg.append("g")
         .attr("class", "y axis")
@@ -96,7 +103,15 @@
         .attr("x", function(d) { return xScale(d.date); })
         .attr("y", function(d) { return yScale(d.gdp); })
         .attr("width", xScale.bandwidth())
-        .attr("height", function(d) { return height - yScale(d.gdp); });
+        .attr("height", function(d) { return height - yScale(d.gdp); })
+        .attr("data-date", dataset.date)
+        .attr("data-gdp", dataset.gdp)
+        .append("title")
+        .attr("id", "tooltip")
+        .attr("data-date", dataset.date)
+        .text(function (dataset) {return dataset.date})
+
+
     });
   </script>
 </body>
